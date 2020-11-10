@@ -32,16 +32,18 @@ module.exports = {
     });
     newConfig.resolve.extensions.push('.ts', '.tsx');
 
-    // // SCSS
-    // newConfig.module.rules.push({
-    //   test: /\.(s*)css$/,
-    //   loaders: ['style-loader', 'css-loader', 'sass-loader'],
-    //   include: path.resolve(__dirname, '../styles/global.scss'),
-    // });
-
     // Less
+    // Remove original less loader
+    newConfig.module.rules = baseConfig.module.rules.filter(
+      (f) => f.test.toString() !== '/\\.less$/'
+    );
     newConfig.module.rules.push({
       test: /\.less$/,
+      include: [
+        // Include antd to rebuild
+        /[\\/]node_modules[\\/].*antd/,
+        path.resolve(__dirname, '../assets/styles/antd.less'),
+      ],
       use: [
         'style-loader',
         'css-loader',
@@ -52,7 +54,6 @@ module.exports = {
           },
         },
       ],
-      include: path.resolve(__dirname, '../assets/styles'),
     });
 
     //
