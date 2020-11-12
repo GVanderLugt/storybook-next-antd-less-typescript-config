@@ -85,6 +85,11 @@ module.exports = {
       ],
     });
 
+    newConfig.resolve.alias['/images'] = path.resolve(
+      __dirname,
+      '../public/images'
+    );
+
     return newConfig;
   },
 };
